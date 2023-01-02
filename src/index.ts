@@ -80,6 +80,20 @@ export default class TodoistPlugin extends Plugin {
       },
     });
 
+    this.addCommand({
+      id: "todoist-add-task-clipboard-link",
+      name: "Add Todoist task with link in clipboard",
+      callback: () => {
+        const currentSelection = window.getSelection().toString();
+        new CreateTaskModal(
+          this.app,
+          this.api,
+          `${currentSelection} [🔗](${navigator.clipboard.readText()})`,
+          currentSelection.length
+        );
+      },
+    });
+
     const tokenPath = getTokenPath(app.vault);
     try {
       const token = await this.app.vault.adapter.read(tokenPath);
